@@ -21,16 +21,18 @@ class UpdateRequest extends FormRequest
         'contact' => ['required','max:15'],
     ];
 
+    public function __construct()
+    {
+        $this->data = (Auth::user()->user_type == User::HR) ? $this->hrData : $this->employeeData;
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
     public function authorize()
-    {
-    
-        $this->data = (Auth::user()->user_type == User::HR) ? $this->hrData : $this->employeeData;
-        
+    {        
         return true;
     }
 
